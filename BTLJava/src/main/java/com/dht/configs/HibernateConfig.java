@@ -60,7 +60,7 @@ public class HibernateConfig {
         props.put(SHOW_SQL, env.getProperty("hibernate.showSql"));
         return props;
     }
-
+    
     @Bean
     public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager
