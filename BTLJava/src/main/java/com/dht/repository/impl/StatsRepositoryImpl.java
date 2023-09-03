@@ -40,6 +40,7 @@ public class StatsRepositoryImpl implements StatsRepository {
     @Autowired
     private SimpleDateFormat f;
 
+    @Override
     public List<Object[]> countProductsByCate() {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
@@ -58,6 +59,7 @@ public class StatsRepositoryImpl implements StatsRepository {
 
     }
 
+    @Override
     public List<Object[]> statsRevenue(Map<String, String> params) {
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
@@ -98,7 +100,7 @@ public class StatsRepositoryImpl implements StatsRepository {
             }
         }
 
-        q.where(predicates.toArray(Predicate[]::new));
+        q.where(predicates.toArray(new Predicate[0]));
 
         q.multiselect(rProduct.get("id"), rProduct.get("name"), b.prod(rOrderDetails.get("unitPrice"), rOrderDetails.get("num")));
         q.groupBy(rProduct.get("id"));

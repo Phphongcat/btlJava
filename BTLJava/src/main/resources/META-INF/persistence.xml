@@ -4,12 +4,12 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.dht.pojo.User</class>
     <class>com.dht.pojo.Category</class>
-    <class>com.dht.pojo.UserRoleRequest</class>
     <class>com.dht.pojo.Shop</class>
-    <class>com.dht.pojo.UserDetail</class>
     <class>com.dht.pojo.SaleOrder</class>
     <class>com.dht.pojo.OrderDetail</class>
     <class>com.dht.pojo.Product</class>
+    <class>com.dht.pojo.ProdTag</class>
+    <class>com.dht.pojo.Tag</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/btl?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

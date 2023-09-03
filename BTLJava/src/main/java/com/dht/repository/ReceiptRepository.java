@@ -4,18 +4,13 @@
  */
 package com.dht.repository;
 
-import com.dht.pojo.Product;
-import java.util.List;
+import com.dht.pojo.Cart;
 import java.util.Map;
 
 /**
  *
  * @author admin
  */
-public interface ProductRepository {
-    List<Product> getProducts(Map<String, String> params);
-    int countProduct();
-    boolean addOrUpdateProduct(Product p);
-    Product getProductById(int id);
-    boolean deleteProduct(int id);
+public interface ReceiptRepository {
+    boolean addReceipt(Map<String, Cart> carts);
 }

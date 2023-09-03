@@ -4,18 +4,13 @@
  */
 package com.dht.service;
 
-import com.dht.pojo.Product;
-import java.util.List;
+import com.dht.pojo.Cart;
 import java.util.Map;
 
 /**
  *
  * @author admin
  */
-public interface ProductService {
-    List<Product> getProducts(Map<String, String> params);
-    int countProduct();
-    boolean addOrUpdateProduct(Product p);
-    Product getProductById(int id);
-    boolean deleteProduct(int id);
+public interface ReceiptService {
+    boolean addReceipt(Map<String, Cart> carts);
 }

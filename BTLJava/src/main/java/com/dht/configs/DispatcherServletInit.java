@@ -8,7 +8,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
 public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -16,7 +16,8 @@ public class DispatcherServletInit extends AbstractAnnotationConfigDispatcherSer
     protected Class<?>[] getRootConfigClasses() {
         return new Class[] {
             HibernateConfig.class,
-            TilesConfig.class
+            TilesConfig.class,
+            SpringSecurityConfig.class
         };
     }
 

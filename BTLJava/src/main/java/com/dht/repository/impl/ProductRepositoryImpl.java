@@ -37,6 +37,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Autowired
     private Environment env;
 
+    @Override
     public List<Product> getProducts(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
        
@@ -68,7 +69,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 predicates.add(b.equal(root.get("categoryId"), Integer.parseInt(cateId)));
             }
 
-            q.where(predicates.toArray(Predicate[]::new));
+            q.where(predicates.toArray(new Predicate[0]));
         }
 
         q.orderBy(b.desc(root.get("id")));
@@ -106,6 +107,25 @@ public class ProductRepositoryImpl implements ProductRepository {
             else
                 s.update(p);
             
+            return true;
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Product getProductById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Product.class, id);
+    }
+
+    @Override
+    public boolean deleteProduct(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Product p = this.getProductById(id);
+        try {
+            s.delete(p);
             return true;
         } catch (HibernateException ex) {
             ex.printStackTrace();

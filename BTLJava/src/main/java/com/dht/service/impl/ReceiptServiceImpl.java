@@ -4,10 +4,10 @@
  */
 package com.dht.service.impl;
 
-import com.dht.pojo.Category;
-import com.dht.repository.CategoryRepository;
-import com.dht.service.CategoryService;
-import java.util.List;
+import com.dht.pojo.Cart;
+import com.dht.repository.ReceiptRepository;
+import com.dht.service.ReceiptService;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,13 @@ import org.springframework.stereotype.Service;
  * @author admin
  */
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class ReceiptServiceImpl implements ReceiptService {
     @Autowired
-    private CategoryRepository cateRepo;
-    
+    private ReceiptRepository receiptRepo;
+
     @Override
-    public List<Category> getCates() {
-        return this.cateRepo.getCates();
+    public boolean addReceipt(Map<String, Cart> carts) {
+        return this.receiptRepo.addReceipt(carts);
     }
     
 }
