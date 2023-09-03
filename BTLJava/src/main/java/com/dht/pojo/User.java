@@ -7,7 +7,6 @@ package com.dht.pojo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
 @Entity
 @Table(name = "user")
@@ -80,22 +79,14 @@ public class User implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "password")
     private String password;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "active")
-    private boolean active;
+    private Boolean active;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 1, max = 10)
     @Column(name = "user_role")
     private String userRole;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<Shop> shopSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<UserDetail> userDetailSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    private Set<UserRoleRequest> userRoleRequestSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @OneToMany(mappedBy = "userId")
     private Set<SaleOrder> saleOrderSet;
 
     public User() {
@@ -105,7 +96,7 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String firstName, String lastName, String email, String phone, String username, String password, boolean active, String userRole) {
+    public User(Integer id, String firstName, String lastName, String email, String phone, String username, String password, String userRole) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -113,7 +104,6 @@ public class User implements Serializable {
         this.phone = phone;
         this.username = username;
         this.password = password;
-        this.active = active;
         this.userRole = userRole;
     }
 
@@ -173,11 +163,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 
@@ -187,33 +177,6 @@ public class User implements Serializable {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
-    }
-
-    @XmlTransient
-    public Set<Shop> getShopSet() {
-        return shopSet;
-    }
-
-    public void setShopSet(Set<Shop> shopSet) {
-        this.shopSet = shopSet;
-    }
-
-    @XmlTransient
-    public Set<UserDetail> getUserDetailSet() {
-        return userDetailSet;
-    }
-
-    public void setUserDetailSet(Set<UserDetail> userDetailSet) {
-        this.userDetailSet = userDetailSet;
-    }
-
-    @XmlTransient
-    public Set<UserRoleRequest> getUserRoleRequestSet() {
-        return userRoleRequestSet;
-    }
-
-    public void setUserRoleRequestSet(Set<UserRoleRequest> userRoleRequestSet) {
-        this.userRoleRequestSet = userRoleRequestSet;
     }
 
     @XmlTransient

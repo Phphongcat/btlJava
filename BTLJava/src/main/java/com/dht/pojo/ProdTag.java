@@ -23,14 +23,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author admin
  */
 @Entity
-@Table(name = "order_detail")
+@Table(name = "prod_tag")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "OrderDetail.findAll", query = "SELECT o FROM OrderDetail o"),
-    @NamedQuery(name = "OrderDetail.findById", query = "SELECT o FROM OrderDetail o WHERE o.id = :id"),
-    @NamedQuery(name = "OrderDetail.findByUnitPrice", query = "SELECT o FROM OrderDetail o WHERE o.unitPrice = :unitPrice"),
-    @NamedQuery(name = "OrderDetail.findByNum", query = "SELECT o FROM OrderDetail o WHERE o.num = :num")})
-public class OrderDetail implements Serializable {
+    @NamedQuery(name = "ProdTag.findAll", query = "SELECT p FROM ProdTag p"),
+    @NamedQuery(name = "ProdTag.findById", query = "SELECT p FROM ProdTag p WHERE p.id = :id")})
+public class ProdTag implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -38,21 +36,17 @@ public class OrderDetail implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "unit_price")
-    private Long unitPrice;
-    @Column(name = "num")
-    private Integer num;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Product productId;
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "tag_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private SaleOrder orderId;
+    private Tag tagId;
 
-    public OrderDetail() {
+    public ProdTag() {
     }
 
-    public OrderDetail(Integer id) {
+    public ProdTag(Integer id) {
         this.id = id;
     }
 
@@ -64,22 +58,6 @@ public class OrderDetail implements Serializable {
         this.id = id;
     }
 
-    public Long getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Long unitPrice) {
-        this.unitPrice = unitPrice;
-    }
-
-    public Integer getNum() {
-        return num;
-    }
-
-    public void setNum(Integer num) {
-        this.num = num;
-    }
-
     public Product getProductId() {
         return productId;
     }
@@ -88,12 +66,12 @@ public class OrderDetail implements Serializable {
         this.productId = productId;
     }
 
-    public SaleOrder getOrderId() {
-        return orderId;
+    public Tag getTagId() {
+        return tagId;
     }
 
-    public void setOrderId(SaleOrder orderId) {
-        this.orderId = orderId;
+    public void setTagId(Tag tagId) {
+        this.tagId = tagId;
     }
 
     @Override
@@ -106,17 +84,19 @@ public class OrderDetail implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof OrderDetail)) {
+        if (!(object instanceof ProdTag)) {
             return false;
         }
-        OrderDetail other = (OrderDetail) object;
-        return !((this.id == null && other.id != null) || 
-                (this.id != null && !this.id.equals(other.id)));
+        ProdTag other = (ProdTag) object;
+        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return "com.dht.pojo.OrderDetail[ id=" + id + " ]";
+        return "com.dht.pojo.ProdTag[ id=" + id + " ]";
     }
     
 }

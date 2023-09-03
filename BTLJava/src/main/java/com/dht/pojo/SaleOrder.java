@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
 @Entity
 @Table(name = "sale_order")
@@ -46,17 +46,15 @@ public class SaleOrder implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "amount")
-    private long amount;
+    private Long amount;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Set<OrderDetail> orderDetailSet;
@@ -68,9 +66,8 @@ public class SaleOrder implements Serializable {
         this.id = id;
     }
 
-    public SaleOrder(Integer id, long amount, Date createdDate) {
+    public SaleOrder(Integer id, Date createdDate) {
         this.id = id;
-        this.amount = amount;
         this.createdDate = createdDate;
     }
 
@@ -82,11 +79,11 @@ public class SaleOrder implements Serializable {
         this.id = id;
     }
 
-    public long getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(long amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 

@@ -4,6 +4,7 @@
  */
 package com.dht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -31,7 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
 @Entity
 @Table(name = "product")
@@ -86,7 +87,10 @@ public class Product implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
-    private boolean active;
+    private Boolean active;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @JsonIgnore
+    private Set<ProdTag> prodTagSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
@@ -94,6 +98,7 @@ public class Product implements Serializable {
     @ManyToOne(optional = false)
     private Shop shopId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
+    @JsonIgnore
     private Set<OrderDetail> orderDetailSet;
     @Transient
     private MultipartFile file;
@@ -105,15 +110,9 @@ public class Product implements Serializable {
         this.id = id;
     }
 
-    public Product(Integer id, String name, String description, long price, String manufacturer, String image, Date createdDate, boolean active) {
+    public Product(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.description = description;
-        this.price = price;
-        this.manufacturer = manufacturer;
-        this.image = image;
-        this.createdDate = createdDate;
-        this.active = active;
     }
 
     public Integer getId() {
@@ -140,11 +139,11 @@ public class Product implements Serializable {
         this.description = description;
     }
 
-    public long getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
@@ -172,12 +171,21 @@ public class Product implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    @XmlTransient
+    public Set<ProdTag> getProdTagSet() {
+        return prodTagSet;
+    }
+
+    public void setProdTagSet(Set<ProdTag> prodTagSet) {
+        this.prodTagSet = prodTagSet;
     }
 
     public Category getCategoryId() {
@@ -186,14 +194,6 @@ public class Product implements Serializable {
 
     public void setCategoryId(Category categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public Shop getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(Shop shopId) {
-        this.shopId = shopId;
     }
 
     @XmlTransient
@@ -229,8 +229,8 @@ public class Product implements Serializable {
     public String toString() {
         return "com.dht.pojo.Product[ id=" + id + " ]";
     }
-    
-        /**
+
+    /**
      * @return the file
      */
     public MultipartFile getFile() {
