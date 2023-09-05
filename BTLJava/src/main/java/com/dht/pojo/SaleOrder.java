@@ -5,8 +5,8 @@
 package com.dht.pojo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author admin
+ * @author ADMIN
  */
 @Entity
 @Table(name = "sale_order")
@@ -57,7 +57,7 @@ public class SaleOrder implements Serializable {
     @ManyToOne
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
-    private Set<OrderDetail> orderDetailSet;
+    private Collection<OrderDetail> orderDetailCollection;
 
     public SaleOrder() {
     }
@@ -104,12 +104,12 @@ public class SaleOrder implements Serializable {
     }
 
     @XmlTransient
-    public Set<OrderDetail> getOrderDetailSet() {
-        return orderDetailSet;
+    public Collection<OrderDetail> getOrderDetailCollection() {
+        return orderDetailCollection;
     }
 
-    public void setOrderDetailSet(Set<OrderDetail> orderDetailSet) {
-        this.orderDetailSet = orderDetailSet;
+    public void setOrderDetailCollection(Collection<OrderDetail> orderDetailCollection) {
+        this.orderDetailCollection = orderDetailCollection;
     }
 
     @Override

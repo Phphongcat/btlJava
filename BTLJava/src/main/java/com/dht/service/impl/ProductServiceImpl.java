@@ -27,19 +27,21 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepo;
     @Autowired
     private Cloudinary cloudinary;
-    
+
     @Override
     public List<Product> getProducts(Map<String, String> params) {
         return this.productRepo.getProducts(params);
     }
 
     @Override
-    public int countProduct() {
+    public Long countProduct() {
         return this.productRepo.countProduct();
     }
 
     @Override
     public boolean addOrUpdateProduct(Product p) {
+       // p.setImage("https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248652/dkeolz3ghc0eino87iec.jpg");
+        
         if (!p.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(p.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
@@ -48,6 +50,7 @@ public class ProductServiceImpl implements ProductService {
                 Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         return this.productRepo.addOrUpdateProduct(p);
     }
 

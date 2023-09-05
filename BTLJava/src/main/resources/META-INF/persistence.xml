@@ -3,16 +3,18 @@
   <persistence-unit name="com.dht_BTLJava_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>com.dht.pojo.User</class>
-    <class>com.dht.pojo.Category</class>
-    <class>com.dht.pojo.Shop</class>
-    <class>com.dht.pojo.SaleOrder</class>
     <class>com.dht.pojo.OrderDetail</class>
-    <class>com.dht.pojo.Product</class>
-    <class>com.dht.pojo.ProdTag</class>
     <class>com.dht.pojo.Tag</class>
+    <class>com.dht.pojo.Product</class>
+    <class>com.dht.pojo.Category</class>
+    <class>com.dht.pojo.ProdTag</class>
+    <class>com.dht.pojo.ProdShop</class>
+    <class>com.dht.pojo.SaleOrder</class>
+    <class>com.dht.pojo.Comment</class>
+    <class>com.dht.pojo.Shop</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/btl?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/BTL?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
       <property name="javax.persistence.jdbc.password" value="Admin@123"/>

@@ -40,7 +40,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public List<Product> getProducts(Map<String, String> params) {
         Session session = this.factory.getObject().getCurrentSession();
-       
         CriteriaBuilder b = session.getCriteriaBuilder();
         CriteriaQuery<Product> q = b.createQuery(Product.class);
         Root root = q.from(Product.class);
@@ -77,13 +76,13 @@ public class ProductRepositoryImpl implements ProductRepository {
         Query query = session.createQuery(q);
 
         if (params != null) {
-            String p = params.get("page");
-            if (p != null && !p.isEmpty()) {
-                int page = Integer.parseInt(p);
+            String page = params.get("page");
+            if (page != null && !page.isEmpty()) {
+                int p = Integer.parseInt(page);
                 int pageSize = Integer.parseInt(this.env.getProperty("PAGE_SIZE"));
 
                 query.setMaxResults(pageSize);
-                query.setFirstResult((page - 1) * pageSize);
+                query.setFirstResult((p - 1) * pageSize);
             }
         }
 
@@ -91,22 +90,23 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public int countProduct() {
+    public Long countProduct() {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createQuery("SELECT Count(*) FROM Product");
-        
-        return Integer.parseInt(q.getSingleResult().toString());
+
+        return Long.parseLong(q.getSingleResult().toString());
     }
 
     @Override
     public boolean addOrUpdateProduct(Product p) {
         Session s = this.factory.getObject().getCurrentSession();
         try {
-            if (p.getId() == null)
+            if (p.getId() == null) {
                 s.save(p);
-            else
+            } else {
                 s.update(p);
-            
+            }
+
             return true;
         } catch (HibernateException ex) {
             ex.printStackTrace();
@@ -116,21 +116,20 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public Product getProductById(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
-        return s.get(Product.class, id);
+        Session session = this.factory.getObject().getCurrentSession();
+        return session.get(Product.class, id);
     }
 
     @Override
     public boolean deleteProduct(int id) {
-        Session s = this.factory.getObject().getCurrentSession();
+        Session session = this.factory.getObject().getCurrentSession();
         Product p = this.getProductById(id);
         try {
-            s.delete(p);
+            session.delete(p);
             return true;
         } catch (HibernateException ex) {
             ex.printStackTrace();
             return false;
         }
     }
-
 }

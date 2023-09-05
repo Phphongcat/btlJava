@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.dht.formatter;
+package com.dht.formatters;
 
 import com.dht.pojo.Category;
 import java.text.ParseException;
@@ -22,7 +22,7 @@ public class CategoryFormatter implements Formatter<Category> {
 
     @Override
     public Category parse(String cateId, Locale locale) throws ParseException {
-        return new Category(Integer.parseInt(cateId));
+        int id = Integer.parseInt(cateId);
+        return new Category(id);
     }
-    
 }

@@ -12,6 +12,6 @@ import java.util.Map;
  * @author admin
  */
 public interface StatsRepository {
-    List<Object[]> countProductsByCate();
+    List<Object[]> countProductByCate();
     List<Object[]> statsRevenue(Map<String, String> params);
 }

@@ -9,8 +9,9 @@ import java.util.List;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
 public interface CategoryService {
-    public List<Category> getCates();
+    List<Category> getCategories();
+    Category getCateById(int id);
 }

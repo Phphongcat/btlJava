@@ -4,6 +4,7 @@
  */
 package com.dht.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -57,13 +58,11 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "last_name")
     private String lastName;
-    // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
-    // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
@@ -85,9 +84,13 @@ public class User implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "user_role")
+    
     private String userRole;
     @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<SaleOrder> saleOrderSet;
+    
+    private String avatar;
 
     public User() {
     }
@@ -211,6 +214,20 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.dht.pojo.User[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the avatar
+     */
+    public String getAvatar() {
+        return avatar;
+    }
+
+    /**
+     * @param avatar the avatar to set
+     */
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
     
 }

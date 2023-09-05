@@ -16,20 +16,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
- * @author ADMIN
+ * @author admin
  */
 @Repository
 @Transactional
-public class CategoryRepositoryImpl implements CategoryRepository{
-
+public class CategoryRepositoryImpl implements  CategoryRepository{
     @Autowired
     private LocalSessionFactoryBean factory;
 
     @Override
-    public List<Category> getCates() {
+    public List<Category> getCategories() {
         Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("From Category");
+        Query q = s.createQuery("FROM Category");
         
         return q.getResultList();
+    }
+
+    @Override
+    public Category getCateById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        return s.get(Category.class, id);
     }
 }

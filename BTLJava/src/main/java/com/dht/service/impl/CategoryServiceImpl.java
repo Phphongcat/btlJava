@@ -21,8 +21,12 @@ public class CategoryServiceImpl implements CategoryService {
     private CategoryRepository cateRepo;
     
     @Override
-    public List<Category> getCates() {
-        return this.cateRepo.getCates();
+    public List<Category> getCategories() {
+        return this.cateRepo.getCategories();
     }
-    
+
+    @Override
+    public Category getCateById(int id) {
+        return this.cateRepo.getCateById(id);
+    }
 }

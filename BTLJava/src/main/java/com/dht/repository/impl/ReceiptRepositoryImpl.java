@@ -7,6 +7,7 @@ package com.dht.repository.impl;
 import com.dht.pojo.Cart;
 import com.dht.pojo.OrderDetail;
 import com.dht.pojo.SaleOrder;
+import com.dht.pojo.User;
 import com.dht.repository.ProductRepository;
 import com.dht.repository.ReceiptRepository;
 import com.dht.repository.UserRepository;
@@ -39,27 +40,30 @@ public class ReceiptRepositoryImpl implements ReceiptRepository {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public boolean addReceipt(Map<String, Cart> carts) {
+
         Session s = this.factory.getObject().getCurrentSession();
-        Authentication authentication
-                = SecurityContextHolder.getContext().getAuthentication();
+        SaleOrder order = new SaleOrder();
 
         try {
-            SaleOrder order = new SaleOrder();
-            order.setUserId(this.userRepo.getUserByUsername(authentication.getName()));
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            User u = this.userRepo.getUserByUsername(authentication.getName());
+            order.setUserId(u);
             order.setCreatedDate(new Date());
-            s.save(order);
+            s.save(u);
 
             for (Cart c : carts.values()) {
                 OrderDetail d = new OrderDetail();
-                d.setUnitPrice(c.getUnitPrice());
-                d.setNum(c.getQuantity());
+                d.setProductId(this.productRepo.getProductById(Integer.parseInt(c.getId().toString())));
                 d.setOrderId(order);
-                d.setProductId(this.productRepo.getProductById(c.getId()));
+                d.setNum(c.getQuantity());
+                d.setUnitPrice(c.getUnitPrice());
+
                 s.save(d);
             }
+
             return true;
         } catch (HibernateException ex) {
-            ex.printStackTrace();;
+            ex.printStackTrace();
             return false;
         }
     }

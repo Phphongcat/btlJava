@@ -6,8 +6,7 @@ package com.dht.configs;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
-import com.dht.formatter.CategoryFormatter;
-import java.text.SimpleDateFormat;
+import com.dht.formatters.CategoryFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +24,7 @@ import org.springframework.web.servlet.config.annotation.DefaultServletHandlerCo
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
 
 /**
  *
@@ -60,8 +60,14 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
     
     @Bean
-    public SimpleDateFormat simpleDateFormat() {
-        return new SimpleDateFormat("yyyy-MM-dd");
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                        "cloud_name", this.env.getProperty("cloudinary.cloud_name"),
+                        "api_key", this.env.getProperty("cloudinary.api_id"),
+                        "api_secret", this.env.getProperty("cloudinary.api_secret"),
+                        "secure", true));
+        return cloudinary;
     }
 
     @Bean
@@ -73,21 +79,10 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public Cloudinary cloudinary() {
-        Cloudinary cloudinary
-                = new Cloudinary(ObjectUtils.asMap(
-                        "cloud_name", env.getProperty("cloudinary.cloud_name"),
-                        "api_key", env.getProperty("cloudinary.api_id"),
-                        "api_secret", env.getProperty("cloudinary.api_secret"),
-                        "secure", true));
-        return cloudinary;
-    }
-
-    @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource m = new ResourceBundleMessageSource();
 
-        m.addBasenames("messages");
+        m.setBasenames("messages");
 
         return m;
     }
@@ -104,5 +99,4 @@ public class WebAppContextConfig implements WebMvcConfigurer {
     public Validator getValidator() {
         return validator();
     }
-
 }

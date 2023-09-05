@@ -1,6 +1,6 @@
 <%-- 
     Document   : index
-    Created on : Jul 7, 2023, 3:12:37 PM
+    Created on : Jul 7, 2023, 1:08:19 PM
     Author     : admin
 --%>
 
@@ -9,21 +9,20 @@
 
 <section class="container">
     <h1 class="text-center text-info mt-1">DANH SÁCH SẢN PHẨM</h1>
-    <div>
-        <a href="<c:url value="/products" />" class="btn btn-info mt-1">Thêm sản phẩm</a>
-    </div>
+    <a href="<c:url value="/products" />" class="btn btn-info">Thêm sản phẩm</a>
+
     <c:if test="${counter > 1}">
         <ul class="pagination mt-1">
-            <li class="page-item"><a class="page-link" href="${action}">Tất cả</a></li>
+            <li class="page-item"><a class="page-link" href="<c:url value="/" />">Tất cả</a></li>
                 <c:forEach begin="1" end="${counter}" var="i">
-                    <c:url value="/" var="pageAction">
-                        <c:param name="page" value="${i}" />
+                    <c:url value="/" var="pageUrl">
+                        <c:param name="page" value="${i}"></c:param>
                     </c:url>
-                <li class="page-item"><a class="page-link" href="${pageAction}">${i}</a></li>
+                <li class="page-item"><a class="page-link" href="${pageUrl}">${i}</a></li>
                 </c:forEach>
-
         </ul>
     </c:if>
+
     <table class="table table-hover">
         <thead>
             <tr>
@@ -42,16 +41,16 @@
                     </td>
                     <td>${p.id}</td>
                     <td>${p.name}</td>
-                    <td>${p.price} VNĐ</td>
+                    <td>${p.price}</td>
                     <td>
-                        <c:url value="/products/${p.id}" var="api" />
-                        <a href="${api}" class="btn btn-success">Cập nhật</a>
-                        <button class="btn btn-danger" onclick="deleteProduct('${api}')">Xóa</button>
+                        <c:url value="/api/products/${p.id}" var="apiDel" />
+                        <a href="<c:url value="/products/${p.id}" />" class="btn btn-success">Cập nhật</a>
+                        <button class="btn btn-danger" onclick="delPro('${apiDel}', ${p.id})">Xóa</button>
                     </td>
                 </tr>
             </c:forEach>
         </tbody>
     </table>
 </section>
-
-        <script src="<c:url value="/js/main.js" />"></script>
+    
+    <script src="<c:url value="/js/main.js" />"></script>

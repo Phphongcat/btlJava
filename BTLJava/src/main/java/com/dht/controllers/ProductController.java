@@ -6,6 +6,7 @@ package com.dht.controllers;
 
 import com.dht.pojo.Product;
 import com.dht.service.ProductService;
+import java.security.Principal;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,23 +27,22 @@ public class ProductController {
     private ProductService proService;
     
     @GetMapping("/products")
-    public String list(Model model) {
+    public String list(Model model, Principal p) {
         model.addAttribute("product", new Product());
         return "products";
     }
     
     @GetMapping("/products/{id}")
-    public String update(Model model, @PathVariable(value = "id") int id) {
+    public String update(Model model, @PathVariable(value = "id") int id)  {
         model.addAttribute("product", this.proService.getProductById(id));
         return "products";
     }
     
     @PostMapping("/products")
-    public String add(@ModelAttribute(value = "product") @Valid Product p,
+    public String add(@ModelAttribute(value = "product") @Valid Product p, 
             BindingResult rs) {
-        
         if (!rs.hasErrors())
-            if (this.proService.addOrUpdateProduct(p) == true)
+            if (proService.addOrUpdateProduct(p) == true)
                 return "redirect:/";
         
         return "products";

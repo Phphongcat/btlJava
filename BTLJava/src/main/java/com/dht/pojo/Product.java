@@ -56,36 +56,24 @@ public class Product implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @NotNull(message = "{product.name.notNull}")
+    @Size(min = 5, max = 50, message = "{product.name.lenErr}")
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(min = 10, max = 255, message = "{product.desc.lenErr}")
     @Column(name = "description")
     private String description;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "price")
-    private long price;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    private Long price;
+    @Size(max = 50)
     @Column(name = "manufacturer")
     private String manufacturer;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "image")
     private String image;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "active")
     private Boolean active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
@@ -94,12 +82,10 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
-    @JoinColumn(name = "shop_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Shop shopId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     @JsonIgnore
     private Set<OrderDetail> orderDetailSet;
+    
     @Transient
     private MultipartFile file;
 
@@ -219,10 +205,7 @@ public class Product implements Serializable {
             return false;
         }
         Product other = (Product) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+        return !((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id)));
     }
 
     @Override
