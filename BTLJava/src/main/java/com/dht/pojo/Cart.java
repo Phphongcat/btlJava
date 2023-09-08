@@ -19,7 +19,7 @@ public class Cart {
     private Long unitPrice;
     
     public Cart() {
-    }
+}
 
     public Cart(Long id) {
         this.id = id;

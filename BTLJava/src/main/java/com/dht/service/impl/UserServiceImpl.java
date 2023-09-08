@@ -70,7 +70,11 @@ public class UserServiceImpl implements UserService {
         u.setEmail(params.get("email"));
         u.setUsername(params.get("username"));
         u.setPassword(this.passwordEncoder.encode(params.get("password")));
-        u.setUserRole("ROLE_USER");
+        
+        String user_role = params.get("roleuser");
+        u.setActive(user_role.equals("ROLE_SALE") == false);
+        u.setUserRole(user_role);
+        
         if (!avatar.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 

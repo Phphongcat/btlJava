@@ -82,6 +82,9 @@ public class Product implements Serializable {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
+    @JoinColumn(name = "shop_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Shop shopId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
     @JsonIgnore
     private Set<OrderDetail> orderDetailSet;
@@ -180,6 +183,14 @@ public class Product implements Serializable {
 
     public void setCategoryId(Category categoryId) {
         this.categoryId = categoryId;
+    }
+    
+    public Shop getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(Shop shopId) {
+        this.shopId = shopId;
     }
 
     @XmlTransient
