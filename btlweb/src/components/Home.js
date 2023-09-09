@@ -5,47 +5,56 @@ import { Link, useSearchParams } from "react-router-dom";
 import { MyCartContext } from "../App";
 import Apis, { endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
+import ReactPaginate from 'react-paginate';
 
 const Home = () => {
     const [, cartDispatch] = useContext(MyCartContext);
     const [products, setProducts] = useState(null);
     const [q] = useSearchParams();
 
+    // paging index
+    const [sId, setSId] = useState(null);
+    const [eId, setEId] = useState(null);
+    const perCount = 2;
+
     useEffect(() => {
         const loadProducts = async () => {
-           try {
-            let e = endpoints['products'];
+            try {
+                let e = endpoints['products'];
 
-            let cateId = q.get("cateId");
-            if (cateId !== null)
-                e = `${e}?cateId=${cateId}`;
-            else {
-                let kw = q.get("kw");
-                if (kw !== null)
-                    e = `${e}?kw=${kw}`;
+                let cateId = q.get("cateId");
+                if (cateId !== null)
+                    e = `${e}?cateId=${cateId}`;
+                else {
+                    let kw = q.get("kw");
+                    if (kw !== null)
+                        e = `${e}?kw=${kw}`;
+                }
+
+                let res = await Apis.get(e);
+                setProducts(res.data);
+            } catch (ex) {
+                console.error(ex);
             }
-            
-            let res = await Apis.get(e);
-            setProducts(res.data);
-           } catch (ex) {
-               console.error(ex);
-           }
         }
 
+        setSId(0);
+        setEId(perCount);
+
         loadProducts();
-    }, [q]); 
+    }, [q]);
 
     const order = (product) => {
         cartDispatch({
             "type": "inc",
             "payload": 1
         });
-        
+
         // lưu vào cookies
         let cart = cookie.load("cart") || null;
         if (cart == null)
             cart = {};
-        
+
         if (product.id in cart) { // sản phẩm có trong giỏ
             cart[product.id]["quantity"] += 1;
         } else { // sản phẩm chưa có trong giỏ
@@ -62,8 +71,14 @@ const Home = () => {
         console.info(cart);
     }
 
+    const handlePageClick = (e) =>{
+    
+       setSId(e.selected * perCount);
+       setEId(e.selected * perCount + perCount);
+    }
 
-    if (products === null) 
+
+    if (products === null)
         return <MySpinner />
 
     if (products.length === 0)
@@ -71,28 +86,46 @@ const Home = () => {
 
     return (
         <>
-        <h1 className="text-center text-info">DANH MỤC SẢN PHẨM</h1>
-        <Row>
-            
-                {products.map(p => {
+            <h1 className="text-center text-info">DANH MỤC SẢN PHẨM</h1>
+            <Row>
+
+                {products.slice(sId, eId).map(p => {
                     let url = `/products/${p.id}`;
 
                     return <Col xs={12} md={3} className="mt-2 mb-2">
-                                <Card style={{ width: '18rem', height: '35rem' }}>
-                                    <Card.Img variant="top" src={p.image} fluid rounded  />
-                                    <Card.Body>
-                                        <Card.Title>{p.name}</Card.Title>
-                                        <Card.Text>{p.price} VNĐ</Card.Text>
-                                        <Card.Text>Cửa hàng: {p.shopId.name}</Card.Text>
-                                        <Link to={url} className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Xem chi tiết</Link>
-                                        <Button variant="success" onClick={() => order(p)}>Đặt hàng</Button>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                })}
-            
-        </Row>
+                        <Card style={{ width: '18rem', height: '35rem' }}>
+                            <Card.Img variant="top" src={p.image} fluid rounded />
+                            <Card.Body>
+                                <Card.Title>{p.name}</Card.Title>
+                                <Card.Text>{p.price} VNĐ</Card.Text>
+                                <Card.Text>Cửa hàng: {p.shopId.name}</Card.Text>
+                                <Link to={url} className="btn btn-info" style={{ marginRight: "5px" }} variant="primary">Xem chi tiết</Link>
+                                <Button variant="success" onClick={() => order(p)}>Đặt hàng</Button>
+                            </Card.Body>
+                        </Card>
+                    </Col>
 
+                })}
+                <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={Math.ceil(products.length / perCount)}
+                    previousLabel="< previous"
+                    renderOnZeroPageCount={null}
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                />
+            </Row>
         </>
     )
 }

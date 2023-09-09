@@ -34,7 +34,7 @@ const Header = () => {
 
     const toShop = () => {
         if(user.active)
-            nav( `/shop/${user.id}`)
+            nav( `/shops/${user.id}`)
         else
             <Alert variant="info" className="mt-1">Chưa có cửa hàng nào!</Alert>
     }
