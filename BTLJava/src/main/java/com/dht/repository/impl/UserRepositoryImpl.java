@@ -4,8 +4,12 @@
  */
 package com.dht.repository.impl;
 
+import com.dht.pojo.Shop;
 import com.dht.pojo.User;
 import com.dht.repository.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +52,28 @@ public class UserRepositoryImpl implements UserRepository {
         Session s = this.factory.getObject().getCurrentSession();
         s.save(u);
         return u;
+    }
+
+    @Override
+    public User getUserById(int userId) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createQuery("FROM User WHERE id=:uid");
+        q.setParameter("uid", userId);
+
+        return (User) q.getSingleResult();
+    }
+
+    @Override
+    public List<User> getUserUnactives() {
+        Session session = this.factory.getObject().getCurrentSession();
+        Query q = session.createQuery("FROM User");
+        List<User> users = q.getResultList();
+        List<User> results = new ArrayList<User>();
+        for(User u : users)
+        {
+            if(u.getActive() == false)
+                results.add(u);
+        }
+       return results;
     }
 }

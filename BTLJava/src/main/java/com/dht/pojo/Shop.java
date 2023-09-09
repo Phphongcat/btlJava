@@ -52,8 +52,6 @@ public class Shop implements Serializable {
     @Size(max = 45)
     @Column(name = "description")
     private String description;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopId")
-    private Set<Product> productSet;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userId;
@@ -92,15 +90,6 @@ public class Shop implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    @XmlTransient
-    public Set<Product> getProductSet() {
-        return productSet;
-    }
-
-    public void setProductSet(Set<Product> productSet) {
-        this.productSet = productSet;
     }
 
     public User getUserId() {

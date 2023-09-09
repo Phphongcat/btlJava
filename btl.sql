@@ -88,7 +88,7 @@ CREATE TABLE `order_detail` (
   KEY `FK_ORDERDETAIL_PRODUCT_idx` (`product_id`),
   CONSTRAINT `FK_ORDERDETAIL_ORDER` FOREIGN KEY (`order_id`) REFERENCES `sale_order` (`id`),
   CONSTRAINT `FK_ORDERDETAIL_PRODUCT` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,35 +97,8 @@ CREATE TABLE `order_detail` (
 
 LOCK TABLES `order_detail` WRITE;
 /*!40000 ALTER TABLE `order_detail` DISABLE KEYS */;
+INSERT INTO `order_detail` VALUES (26,14,21,15000000,'34');
 /*!40000 ALTER TABLE `order_detail` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `prod_shop`
---
-
-DROP TABLE IF EXISTS `prod_shop`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `prod_shop` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `prod_id` int NOT NULL,
-  `shop_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_PRODUCE_ID_idx` (`prod_id`),
-  KEY `FK_SHOP_ID_idx` (`shop_id`),
-  CONSTRAINT `FK_PRODUCE_ID` FOREIGN KEY (`prod_id`) REFERENCES `product` (`id`),
-  CONSTRAINT `FK_SHOP_ID` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `prod_shop`
---
-
-LOCK TABLES `prod_shop` WRITE;
-/*!40000 ALTER TABLE `prod_shop` DISABLE KEYS */;
-/*!40000 ALTER TABLE `prod_shop` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -176,9 +149,9 @@ CREATE TABLE `product` (
   `shop_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_PRODUCE_CATEGORY_idx` (`category_id`),
-  KEY `FK_SHOP_idx` (`shop_id`),
+  KEY `FK_PRODUCE_SHOP_idx` (`shop_id`),
   CONSTRAINT `FK_PRODUCE_CATEGORY` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-  CONSTRAINT `FK_SHOP` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`id`)
+  CONSTRAINT `FK_PRODUCE_SHOP` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -207,7 +180,7 @@ CREATE TABLE `sale_order` (
   PRIMARY KEY (`id`),
   KEY `FK_ORDER_USER_idx` (`user_id`),
   CONSTRAINT `FK_ORDER_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,6 +189,7 @@ CREATE TABLE `sale_order` (
 
 LOCK TABLES `sale_order` WRITE;
 /*!40000 ALTER TABLE `sale_order` DISABLE KEYS */;
+INSERT INTO `sale_order` VALUES (14,NULL,'2023-09-08 07:57:57',11);
 /*!40000 ALTER TABLE `sale_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,13 +202,13 @@ DROP TABLE IF EXISTS `shop`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `shop` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) COLLATE utf8mb3_unicode_ci NOT NULL,
-  `description` varchar(255) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `name` varchar(45) COLLATE utf8mb3_unicode_ci NOT NULL,
+  `description` varchar(45) COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_SHOP_USER_idx` (`user_id`),
   CONSTRAINT `FK_SHOP_USER` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +217,7 @@ CREATE TABLE `shop` (
 
 LOCK TABLES `shop` WRITE;
 /*!40000 ALTER TABLE `shop` DISABLE KEYS */;
-INSERT INTO `shop` VALUES (1,'Cửa hàng số 1','',10);
+INSERT INTO `shop` VALUES (1,'cửa hàng số 1','cửa hàng',16),(2,'cửa hàng số 2','cửa hàng',16);
 /*!40000 ALTER TABLE `shop` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -287,10 +261,10 @@ CREATE TABLE `user` (
   `username` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `password` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `active` bit(1) DEFAULT b'1',
-  `user_role` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci NOT NULL,
   `avatar` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `user_role` varchar(10) COLLATE utf8mb3_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -299,7 +273,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (10,'C','A B','abc@gmail.com','012345678','abc','$2a$10$Bkg8bdtXMEXd8gVDsySMdexkYZReU3Rvzl7pmIEyN/4qBpRctd8jO',NULL,'ROLE_USER','https://res.cloudinary.com/dokoicpvp/image/upload/v1693927381/h9gr5raa2plemztiuo4d.jpg'),(11,'Tú','Lê Quốc','1851050175tu@ou.edu.vn','012345678','admin','$2a$10$i7iyrzvAnipHDDVQHyVMJe75/Zn0Rj7YPTEj5JH62O6Aw07t0XT2O',NULL,'ROLE_ADMIN','https://res.cloudinary.com/dokoicpvp/image/upload/v1693927779/hjlqdlphwnqhdrfmc8p8.webp');
+INSERT INTO `user` VALUES (10,'C','A B','abc@gmail.com','012345678','abc','$2a$10$Bkg8bdtXMEXd8gVDsySMdexkYZReU3Rvzl7pmIEyN/4qBpRctd8jO',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1693927381/h9gr5raa2plemztiuo4d.jpg','ROLE_STAFF'),(11,'Tú','Lê Quốc','1851050175tu@ou.edu.vn','012345678','admin','$2a$10$i7iyrzvAnipHDDVQHyVMJe75/Zn0Rj7YPTEj5JH62O6Aw07t0XT2O',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1693927779/hjlqdlphwnqhdrfmc8p8.webp','ROLE_ADMIN'),(12,'ad','ad','ad@gmail.com','0123456789','ad','$2a$10$dStTp4ADPK4jTHevdDKPSuLmdKOyv1c9I6RpB7QC1ZwF7b3uKTD1W',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1694101283/lxnxjvwvoux2bzkc4dzq.webp','ROLE_USER'),(13,'ab','ab','ab@gmail.com','0123456789','ab','$2a$10$gADPqgiC6Vfy3TxSLqo0q.yC4rg6Jo1zq4UwJkvMZJ4zWnV2RBDT.',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1694101374/rogvhhxtjqtkbqqewxbl.webp','ROLE_USER'),(14,'q','q','q@gmail.com','1','q','$2a$10$rA1IM3nxVWx5zjKvO30mXuLaIPh1LA/9aH9U0l1IEGIuzkTkX6IiK',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1694101501/brzmsnsftosff7ly8hot.webp','ROLE_USER'),(15,'e','e','e@gmail.com','0123','e','$2a$10$KFzL4I80si9FPzlCOfTafeTxjrpLEe4YJX3OEQxZw/bT/kZ4mTCHm',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1694101982/h8c1po7zspcddlpd2lyp.webp','ROLE_USER'),(16,'t','t','t@gmail.com','1','t','$2a$10$hnHTE2SdGzKJVRo2ZZu7LOGR9Ye.DO.BjaHr46WtI.WSVWoSbmRI2',_binary '','https://res.cloudinary.com/dokoicpvp/image/upload/v1694103210/zja1knqepkqgwash5itb.webp','ROLE_SALE');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -312,4 +286,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-09-05 23:04:09
+-- Dump completed on 2023-09-08 19:05:42

@@ -61,6 +61,10 @@ const Header = () => {
                     </>: <>
                         <Link className="nav-link text-danger" to="/">Chào {user.username}!</Link>
                         <Button variant="secondary" onClick={logout}>Đăng xuất</Button>
+
+                        {user.userRole === "ROLE_SALE" ? <>
+                        <Link className="nav-link text-danger" to="/shop">Cửa hàng</Link>
+                        </> : <></>}
                     </>}
                     <Link className="nav-link text-danger" to="/cart">&#128722; <Badge bg="danger">{cartCounter}</Badge></Link>
                 </Nav>

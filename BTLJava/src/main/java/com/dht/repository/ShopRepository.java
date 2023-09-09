@@ -13,6 +13,10 @@ import java.util.List;
  * @author ADMIN
  */
 public interface ShopRepository {
-    Shop getShop();
-    List<Product> getProducts();
+    List<Shop> getShops();
+    List<Shop> getShopsByUI(int userId);
+    Shop getShopById(int shopId);
+    List<Product> getProducts(int shopId);
+    boolean AddOrUpdateShop(Shop shop);
+    boolean deleteShop(int shopId);
 }

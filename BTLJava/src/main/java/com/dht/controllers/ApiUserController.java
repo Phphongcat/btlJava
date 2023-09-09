@@ -8,6 +8,7 @@ import com.dht.pojo.User;
 import com.dht.components.JwtService;
 import com.dht.service.UserService;
 import java.security.Principal;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -68,5 +69,11 @@ public class ApiUserController {
     public ResponseEntity<User> details(Principal user) {
         User u = this.userService.getUserByUn(user.getName());
         return new ResponseEntity<>(u, HttpStatus.OK);
+    }
+    
+    @GetMapping(path = "/unactiveusers/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin
+    public ResponseEntity<List<User>> unactives() {
+        return new ResponseEntity<>(this.userService.getUserUnactives(), HttpStatus.OK);
     }
 }

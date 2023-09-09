@@ -22,12 +22,27 @@ public class ShopServiceImpl implements ShopService{
     private ShopRepository shopRepo;
 
     @Override
-    public Shop getShop() {
-        return shopRepo.getShop();
+    public List<Shop> getShops() {
+        return shopRepo.getShops();
     }
 
     @Override
-    public List<Product> getProducts() {
-        return shopRepo.getProducts();
+    public List<Product> getProducts(int shopId) {
+        return shopRepo.getProducts(shopId);
+    }
+
+    @Override
+    public List<Shop> getShopsByUI(int userId) {
+        return shopRepo.getShopsByUI(userId);
+    }
+
+    @Override
+    public Shop getShopById(int shopId) {
+        return shopRepo.getShopById(shopId);
+    }
+
+    @Override
+    public boolean AddOrUpdateShop(Shop shop) {
+        return this.shopRepo.AddOrUpdateShop(shop);
     }
 }

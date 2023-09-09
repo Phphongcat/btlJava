@@ -86,12 +86,7 @@ public class User implements Serializable {
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "user_role")
-    
     private String userRole;
-    @OneToMany(mappedBy = "userId")
-    @JsonIgnore
-    private Set<SaleOrder> saleOrderSet;
-    
     private String avatar;
 
     public User() {
@@ -182,15 +177,6 @@ public class User implements Serializable {
 
     public void setUserRole(String userRole) {
         this.userRole = userRole;
-    }
-
-    @XmlTransient
-    public Set<SaleOrder> getSaleOrderSet() {
-        return saleOrderSet;
-    }
-
-    public void setSaleOrderSet(Set<SaleOrder> saleOrderSet) {
-        this.saleOrderSet = saleOrderSet;
     }
 
     @Override

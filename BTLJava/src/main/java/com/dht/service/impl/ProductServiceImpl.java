@@ -23,10 +23,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductRepository productRepo;
-    @Autowired
-    private Cloudinary cloudinary;
+   
 
     @Override
     public List<Product> getProducts(Map<String, String> params) {
@@ -40,17 +40,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean addOrUpdateProduct(Product p) {
-       // p.setImage("https://res.cloudinary.com/dxxwcby8l/image/upload/v1647248652/dkeolz3ghc0eino87iec.jpg");
-        
-        if (!p.getFile().isEmpty()) {
-            try {
-                Map res = this.cloudinary.uploader().upload(p.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
-                p.setImage(res.get("secure_url").toString());
-            } catch (IOException ex) {
-                Logger.getLogger(ProductServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
         return this.productRepo.addOrUpdateProduct(p);
     }
 

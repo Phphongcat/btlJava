@@ -6,12 +6,13 @@ import MySpinner from "../layout/MySpinner";
 
 const Register = () => {
     const [user, setUser] = useState({
-        "username": "", 
-        "password": "", 
-        "firstName": "", 
-        "lastName": "", 
+        "username": "",
+        "password": "",
+        "firstName": "",
+        "lastName": "",
         "email": "",
         "phone": "",
+        "roleuser": "",
         "confirmPass": ""
     });
     const [err, setErr] = useState(null);
@@ -25,9 +26,14 @@ const Register = () => {
         const process = async () => {
             let form = new FormData();
 
-            for (let field in user)
-                if (field !== "confirmPass")
-                    form.append(field, user[field]);
+            for (let field in user) {
+                if (field !== "confirmPass") {
+                    if (field === "roleuser" && user[field] === "")
+                        form.append(field, "ROLE_USER");
+                    else
+                        form.append(field, user[field]);
+                }
+            }
 
             form.append("avatar", avatar.current.files[0]);
 
@@ -36,7 +42,7 @@ const Register = () => {
             if (res.status === 201) {
                 nav("/login");
             } else
-            setErr("Hệ thống bị lỗi!");
+                setErr("Hệ thống bị lỗi!");
         }
 
         if (user.password === user.confirmPass)
@@ -49,14 +55,14 @@ const Register = () => {
     const change = (evt, field) => {
         // setUser({...user, [field]: evt.target.value})
         setUser(current => {
-            return {...current, [field]: evt.target.value}
+            return { ...current, [field]: evt.target.value }
         })
     }
 
     return <>
         <h1 className="text-center text-info mt-2">ĐĂNG KÝ NGƯỜI DÙNG</h1>
 
-        {err === null?"":<Alert variant="danger">{err}</Alert>}
+        {err === null ? "" : <Alert variant="danger">{err}</Alert>}
 
         <Form onSubmit={register}>
             <Form.Group className="mb-3">
@@ -88,12 +94,19 @@ const Register = () => {
                 <Form.Control value={user.confirmPass} onChange={(e) => change(e, "confirmPass")} type="password" placeholder="Xác nhận mật khẩu" required />
             </Form.Group>
             <Form.Group className="mb-3">
-                <Form.Label>Ảnh đại diện</Form.Label>
-                <Form.Control type="file" ref={avatar}  />
+                <Form.Label>Vai Trò</Form.Label>
+                <Form.Select defaultValue={"ROLE_USER"} onChange={(e) => change(e, "roleuser")} aria-label="Default select example">
+                    <option value="ROLE_USER">Người dùng</option>
+                    <option value="ROLE_SALE">Người dùng và bán</option>
+                </Form.Select>
             </Form.Group>
             <Form.Group className="mb-3">
-                {loading === true?<MySpinner />: <Button variant="info" type="submit">Đăng ký</Button>}
-                
+                <Form.Label>Ảnh đại diện</Form.Label>
+                <Form.Control type="file" ref={avatar} />
+            </Form.Group>
+            <Form.Group className="mb-3">
+                {loading === true ? <MySpinner /> : <Button variant="info" type="submit">Đăng ký</Button>}
+
             </Form.Group>
         </Form>
     </>

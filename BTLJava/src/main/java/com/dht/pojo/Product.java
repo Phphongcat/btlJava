@@ -4,12 +4,9 @@
  */
 package com.dht.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.Set;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,16 +16,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -57,10 +50,10 @@ public class Product implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull(message = "{product.name.notNull}")
-    @Size(min = 5, max = 50, message = "{product.name.lenErr}")
+    @Size(min = 1, max = 50, message = "{product.name.lenErr}")
     @Column(name = "name")
     private String name;
-    @Size(min = 10, max = 255, message = "{product.desc.lenErr}")
+    @Size(min = 1, max = 255, message = "{product.desc.lenErr}")
     @Column(name = "description")
     private String description;
     @Column(name = "price")
@@ -76,21 +69,12 @@ public class Product implements Serializable {
     private Date createdDate;
     @Column(name = "active")
     private Boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    @JsonIgnore
-    private Set<ProdTag> prodTagSet;
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Category categoryId;
     @JoinColumn(name = "shop_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Shop shopId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId")
-    @JsonIgnore
-    private Set<OrderDetail> orderDetailSet;
-    
-    @Transient
-    private MultipartFile file;
 
     public Product() {
     }
@@ -168,15 +152,6 @@ public class Product implements Serializable {
         this.active = active;
     }
 
-    @XmlTransient
-    public Set<ProdTag> getProdTagSet() {
-        return prodTagSet;
-    }
-
-    public void setProdTagSet(Set<ProdTag> prodTagSet) {
-        this.prodTagSet = prodTagSet;
-    }
-
     public Category getCategoryId() {
         return categoryId;
     }
@@ -191,15 +166,6 @@ public class Product implements Serializable {
 
     public void setShopId(Shop shopId) {
         this.shopId = shopId;
-    }
-
-    @XmlTransient
-    public Set<OrderDetail> getOrderDetailSet() {
-        return orderDetailSet;
-    }
-
-    public void setOrderDetailSet(Set<OrderDetail> orderDetailSet) {
-        this.orderDetailSet = orderDetailSet;
     }
 
     @Override
@@ -223,19 +189,4 @@ public class Product implements Serializable {
     public String toString() {
         return "com.dht.pojo.Product[ id=" + id + " ]";
     }
-
-    /**
-     * @return the file
-     */
-    public MultipartFile getFile() {
-        return file;
-    }
-
-    /**
-     * @param file the file to set
-     */
-    public void setFile(MultipartFile file) {
-        this.file = file;
-    }
-    
 }

@@ -66,12 +66,19 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/products/**").permitAll();
         http.authorizeRequests().antMatchers("/api/categories/").permitAll();
         http.authorizeRequests().antMatchers("/api/users/").permitAll();
+        http.authorizeRequests().antMatchers("/api/unactiveusers/").permitAll();
+        http.authorizeRequests().antMatchers("/api/shops/").permitAll();
+        http.authorizeRequests().antMatchers("/api/shops/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/shops-by-user-id/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/products-by-shop-id/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/shop-add-update/").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/comments/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
-                .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')").and()
+                .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_SALE') or hasRole('ROLE_STAFF')")
+                .antMatchers(HttpMethod.POST, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_SALE') or hasRole('ROLE_STAFF')")
+                .antMatchers(HttpMethod.DELETE, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER') or hasRole('ROLE_SALE') or hasRole('ROLE_STAFF')")
+                .and()
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }

@@ -78,11 +78,12 @@ const Home = () => {
                     let url = `/products/${p.id}`;
 
                     return <Col xs={12} md={3} className="mt-2 mb-2">
-                                <Card style={{ width: '18rem' }}>
+                                <Card style={{ width: '18rem', height: '35rem' }}>
                                     <Card.Img variant="top" src={p.image} fluid rounded  />
                                     <Card.Body>
                                         <Card.Title>{p.name}</Card.Title>
                                         <Card.Text>{p.price} VNĐ</Card.Text>
+                                        <Card.Text>Cửa hàng: {p.shopId.name}</Card.Text>
                                         <Link to={url} className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Xem chi tiết</Link>
                                         <Button variant="success" onClick={() => order(p)}>Đặt hàng</Button>
                                     </Card.Body>

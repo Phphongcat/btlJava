@@ -2,8 +2,9 @@
 import { useContext, useEffect, useState } from "react";
 import { Button, Col, Form, Image, ListGroup, Row } from "react-bootstrap";
 import Moment from "react-moment";
-import { Link, useParams } from "react-router-dom";
-import { MyUserContext } from "../App";
+import cookie from "react-cookies";
+import { Link, useParams, Navigate } from "react-router-dom";
+import { MyUserContext, MyCartContext } from "../App";
 import Apis, { authApi, endpoints } from "../configs/Apis";
 import MySpinner from "../layout/MySpinner";
 
@@ -11,6 +12,7 @@ const ProductDetails = () => {
     const [user, ] = useContext(MyUserContext);
     const {productId} = useParams();
     const [product, setProduct] = useState(null);
+    const [, cartDispatch] = useContext(MyCartContext);
     const [comments, setComments] = useState(null);
     const [content, setContent] = useState();
 
@@ -28,6 +30,33 @@ const ProductDetails = () => {
         loadProduct();
         loadComments();
     }, []);
+
+    const order = (product) => {
+        cartDispatch({
+            "type": "inc",
+            "payload": 1
+        });
+        
+        // lưu vào cookies
+        let cart = cookie.load("cart") || null;
+        if (cart == null)
+            cart = {};
+        
+        if (product.id in cart) { // sản phẩm có trong giỏ
+            cart[product.id]["quantity"] += 1;
+        } else { // sản phẩm chưa có trong giỏ
+            cart[product.id] = {
+                "id": product.id,
+                "name": product.name,
+                "quantity": 1,
+                "unitPrice": product.price
+            }
+        }
+
+        cookie.save("cart", cart);
+
+        console.info(cart);
+    }
 
     const addComment = () => {
         const process = async () => {
@@ -56,6 +85,8 @@ const ProductDetails = () => {
                 <h2 className="text-danger">{product.name}</h2>
                 <p>{product.description}</p>
                 <h3>{product.price} VNĐ</h3>
+                <h3>Cửa hàng: {product.shopId.name}</h3>
+                <Button variant="success" onClick={() => order(product)}>Đặt hàng</Button>
             </Col>
         </Row>
         <hr />

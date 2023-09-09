@@ -11,6 +11,7 @@ import com.dht.repository.UserRepository;
 import com.dht.service.UserService;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -86,5 +87,15 @@ public class UserServiceImpl implements UserService {
         }
         this.userRepo.addUser(u);
         return u;
+    }
+
+    @Override
+    public User getUserById(int userId) {
+        return this.userRepo.getUserById(userId);
+    }
+
+    @Override
+    public List<User> getUserUnactives() {
+        return this.userRepo.getUserUnactives();
     }
 }
