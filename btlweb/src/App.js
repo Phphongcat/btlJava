@@ -17,6 +17,7 @@ import Shop from "./components/Shop";
 import ShopDetail from "./components/ShopDetail";
 import AddOrUpdateShop from "./components/AddOrUpdateShop";
 import AddOrUpdateProduct from "./components/AddOrUpdateProduct";
+import UnactiveUsers from "./components/UnactiveUsers";
 
 export const MyUserContext = createContext();
 export const MyCartContext = createContext();
@@ -44,10 +45,11 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/products/:productId" element={<ProductDetails />} />
-            <Route path="/shop" element={<Shop />} />
+            <Route path="/shop/:userId" element={<Shop />} />
             <Route path="/shop/:shopId" element={<ShopDetail />} />
             <Route path="/addShop" element={<AddOrUpdateShop />} />
             <Route path="/addProduct" element={<AddOrUpdateProduct />} />
+            <Route path="/managerUser" element={<UnactiveUsers />} />
           </Routes>
         </Container>
         <Footer />

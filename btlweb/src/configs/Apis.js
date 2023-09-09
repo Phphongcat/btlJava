@@ -10,6 +10,7 @@ export const endpoints = {
     "login": `${SERVER_CONTEXT}/api/login/`,
     "current-user": `${SERVER_CONTEXT}/api/current-user/`,
     "unactive-users": `${SERVER_CONTEXT}/api/unactiveusers/`,
+    "update-sale-user": `${SERVER_CONTEXT}/api/update-sale-user/`,
     "register": `${SERVER_CONTEXT}/api/users/`,
     "pay": `${SERVER_CONTEXT}/api/pay/`,
     "details": (productId) => `${SERVER_CONTEXT}/api/products/${productId}/`,

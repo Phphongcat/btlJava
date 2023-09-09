@@ -64,16 +64,33 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> getUserUnactives() {
+    public List<User> getSaleUsers() {
         Session session = this.factory.getObject().getCurrentSession();
         Query q = session.createQuery("FROM User");
         List<User> users = q.getResultList();
         List<User> results = new ArrayList<User>();
         for(User u : users)
         {
-            if(u.getActive() == false)
+            if(u.getUserRole().equals("ROLE_SALE"))
                 results.add(u);
         }
        return results;
+    }
+    
+    @Override
+    public boolean updateSaleUser(User user)
+    {
+        if(user.getUserRole().equals("ROLE_SALE"))
+        {
+            Session session = this.factory.getObject().getCurrentSession();
+            try {
+                session.update(user);
+                return true;
+            } catch (HibernateException ex) {
+                ex.printStackTrace();
+                return false;
+            }
+        }
+        return false;
     }
 }

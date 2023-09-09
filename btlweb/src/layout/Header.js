@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Badge, Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } from "react-bootstrap";
+import { Badge, Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { MyCartContext, MyUserContext } from "../App";
 import Apis, { endpoints } from "../configs/Apis";
@@ -30,6 +30,13 @@ const Header = () => {
         dispatch({
             "type": "logout"
         })
+    }
+
+    const toShop = () => {
+        if(user.active)
+            nav( `/shop/${user.id}`)
+        else
+            <Alert variant="info" className="mt-1">Chưa có cửa hàng nào!</Alert>
     }
 
     if (categories === null)
@@ -63,8 +70,12 @@ const Header = () => {
                         <Button variant="secondary" onClick={logout}>Đăng xuất</Button>
 
                         {user.userRole === "ROLE_SALE" ? <>
-                        <Link className="nav-link text-danger" to="/shop">Cửa hàng</Link>
-                        </> : <></>}
+                        <Button className="nav-link text-danger" onClick={toShop}>Cửa hàng</Button>
+                        </> : <>
+                            {user.userRole === "ROLE_ADMIN" || user.userRole === "ROLE_STAFF" ? <>
+                                <Link className="nav-link text-danger" to="/managerUser">Quản lý tài khoản</Link>
+                            </>:<></>}
+                        </>}
                     </>}
                     <Link className="nav-link text-danger" to="/cart">&#128722; <Badge bg="danger">{cartCounter}</Badge></Link>
                 </Nav>

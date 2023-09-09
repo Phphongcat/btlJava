@@ -95,7 +95,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUserUnactives() {
-        return this.userRepo.getUserUnactives();
+    public List<User> getSaleUsers() {
+        return this.userRepo.getSaleUsers();
+    }
+    
+    @Override
+    public boolean updateSaleUser(User user)
+    {
+        return this.userRepo.updateSaleUser(user);
     }
 }

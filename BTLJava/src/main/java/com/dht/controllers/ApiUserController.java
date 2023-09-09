@@ -64,6 +64,17 @@ public class ApiUserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
     
+    @PostMapping(path = "/update-sale-user/", 
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, 
+            produces = {MediaType.APPLICATION_JSON_VALUE})
+    @CrossOrigin
+    public ResponseEntity<User> updateUser(@RequestParam Map<String, String> params) {
+        User user = this.userService.getUserById(Integer.parseInt(params.get("userId")));
+        user.setActive(Integer.parseInt(params.get("userActive")) == 1);
+        this.userService.updateSaleUser(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    
     @GetMapping(path = "/current-user/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<User> details(Principal user) {
@@ -74,6 +85,6 @@ public class ApiUserController {
     @GetMapping(path = "/unactiveusers/", produces = MediaType.APPLICATION_JSON_VALUE)
     @CrossOrigin
     public ResponseEntity<List<User>> unactives() {
-        return new ResponseEntity<>(this.userService.getUserUnactives(), HttpStatus.OK);
+        return new ResponseEntity<>(this.userService.getSaleUsers(), HttpStatus.OK);
     }
 }
