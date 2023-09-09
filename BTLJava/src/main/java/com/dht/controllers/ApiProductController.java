@@ -83,6 +83,11 @@ public class ApiProductController {
         p.setPrice(Long.parseLong(params.get("price")));
         p.setCategoryId(this.cateService.getCateById(Integer.parseInt(params.get("categoryId"))));
         p.setShopId(this.shopService.getShopById(Integer.parseInt(params.get("shopId"))));
+        p.setActive(Boolean.TRUE);
+        
+        int pId = Integer.parseInt(params.get("productId"));
+        if(pId >= 1)
+            p.setId(pId);
         
         if (!file.isEmpty()) {
             try {

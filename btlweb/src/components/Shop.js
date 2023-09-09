@@ -53,7 +53,7 @@ const Shop = () => {
                                         <Card.Title>{s.name}</Card.Title>
                                         <Card.Text>{s.description}</Card.Text>
                                         <Link to={`/shop/${s.id}`} className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Xem chi tiết</Link>
-                                        <Button onClick={()=>changeShop(s)} className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Chỉnh sửa</Button>
+                                        <Button onClick={()=>changeShop(s)} className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Cập nhật</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>

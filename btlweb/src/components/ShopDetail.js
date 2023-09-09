@@ -22,6 +22,13 @@ const ShopDetail = () => {
 
     const addProduct = () =>{
         cookie.save("shopId", shopId);
+        cookie.save("productStatus", "create")
+        nav("/addProduct");
+    }
+
+    const changeProduct = (pId) =>{
+        cookie.save("productId", pId);
+        cookie.save("productStatus", "change")
         nav("/addProduct");
     }
 
@@ -43,7 +50,7 @@ const ShopDetail = () => {
                                     <Card.Body>
                                         <Card.Title>{p.name}</Card.Title>
                                         <Card.Text>{p.price} VNĐ</Card.Text>
-                                        <Button className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Cập nhật</Button>
+                                        <Button onClick={()=>changeProduct(p.id)} className="btn btn-info" style={{marginRight: "5px"}} variant="primary">Cập nhật</Button>
                                     </Card.Body>
                                 </Card>
                             </Col>
