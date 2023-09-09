@@ -15,7 +15,7 @@ const Home = () => {
     // paging index
     const [sId, setSId] = useState(null);
     const [eId, setEId] = useState(null);
-    const perCount = 2;
+    const perCount = 20;
 
     useEffect(() => {
         const loadProducts = async () => {

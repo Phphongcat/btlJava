@@ -76,7 +76,7 @@ const ProductDetails = () => {
 
     let url = `/login?next=/products/${productId}`;
     return <>
-        <h1 className="text-center text-info mt-2">CHI TIẾT SẢN PHẨM ({productId})</h1>
+        <h1 className="text-center text-info mt-2">CHI TIẾT SẢN PHẨM</h1>
         <Row>
             <Col md={5} xs={6}>
                 <Image src={product.image} rounded fluid />

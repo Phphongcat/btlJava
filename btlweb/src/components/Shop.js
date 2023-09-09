@@ -39,9 +39,6 @@ const Shop = () => {
     if (shops === null)
         return <MySpinner />
 
-    if (shops.length === 0)
-        return <Alert variant="info" className="mt-1">Chưa có cửa hàng nào!</Alert>
-
     return (
         <>
             <h1 className="text-center text-info">Quản lý cửa Hàng</h1>

@@ -97,7 +97,7 @@ const AddOrUpdateProduct = () => {
             setLoading(true)
             let res = await Apis.post(endpoints['products'], form);
             if (res.status === 201) {
-                nav("/shop");
+                nav(`/shop/${shopId}`);
             } else
                 setErr("Hệ thống bị lỗi!");
         }
